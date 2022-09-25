@@ -6,12 +6,17 @@ import unitToConvert from '../../data-examples/task-01.json' assert { type: 'jso
 console.log('This is task-01');
 
 function convertUnit(unitToConvert, allUnits) {
-  const from = unitToConvert.distance.unit;
-  const value = unitToConvert.distance.value;
+  // const from = unitToConvert.distance.unit;
+  // const value = unitToConvert.distance.value;
+
+  const { unit: from, value } = unitToConvert.distance;
   const to = unitToConvert.convert_to;
 
   console.log(`converting ${value} from "${from}" to "${to}"`);
-  return allUnits[from][to] * value;
+
+  const result = allUnits[from][to] * value;
+  const roundedResult = Math.floor(result * 100) / 100;
+  return { unit: to, value: roundedResult };
 }
 
-console.log('result equals', convertUnit(unitToConvert, UNITS));
+console.log('function returns:', convertUnit(unitToConvert, UNITS));
