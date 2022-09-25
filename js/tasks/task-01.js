@@ -16,7 +16,7 @@ function convertUnit(unitToConvert, allUnits) {
 
   const result = allUnits[from][to] * value;
   const roundedResult = Math.floor(result * 100) / 100;
-  return { unit: to, value: roundedResult };
+  return JSON.stringify({ unit: to, value: roundedResult });
 }
 
 console.log('function returns:', convertUnit(unitToConvert, UNITS));
