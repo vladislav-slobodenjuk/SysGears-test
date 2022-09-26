@@ -4,6 +4,7 @@ import UNITS from '../../constants/units.json' assert { type: 'json' };
 import unitToConvert from '../../data-examples/task-01.json' assert { type: 'json' };
 
 console.log('This is task-01');
+console.log('Incoming data:', unitToConvert);
 
 function convertUnit(unitToConvert, allUnits) {
   // const from = unitToConvert.distance.unit;
@@ -15,7 +16,7 @@ function convertUnit(unitToConvert, allUnits) {
   console.log(`converting ${value} from "${from}" to "${to}"`);
 
   const result = allUnits[from][to] * value;
-  const roundedResult = Math.floor(result * 100) / 100;
+  const roundedResult = Math.round(result * 100) / 100;
   return JSON.stringify({ unit: to, value: roundedResult });
 }
 

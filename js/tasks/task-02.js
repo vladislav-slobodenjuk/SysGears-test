@@ -1,6 +1,9 @@
 import dataToSort from '../../data-examples/task-02.json' assert { type: 'json' };
 
 console.log('This is task-02');
+console.log('Incoming data:', dataToSort);
+
+const FILTER_CONDITIONS = ['include', 'exclude'];
 
 function sortData(obj) {
   const { data, condition } = obj;
@@ -11,9 +14,14 @@ function sortData(obj) {
   // console.log(Object.keys(condition));
   // console.log(condition.hasOwnProperty('exclude'));
 
+  if (!FILTER_CONDITIONS.some(CONDITION => CONDITION in condition)) {
+    console.log('unknown condition');
+    return null; // throw new Error('unknown condition')
+  }
+
   let result = [];
 
-  if (condition.hasOwnProperty('include')) {
+  if ('include' in condition) {
     console.log('condition is include');
     // console.log(condition.include);
     // console.log('line 19', Object.entries(condition.include[0])[0]);
@@ -59,8 +67,6 @@ function sortData(obj) {
       return obj[compareCondition[0]] !== compareCondition[1];
     });
     console.log('result', result);
-  } else {
-    console.log('unknown condition');
   }
 
   result.sort((a, b) => {
@@ -71,8 +77,8 @@ function sortData(obj) {
     return a[sortCondition] > b[sortCondition] ? 1 : -1;
   });
 
-  // const filterCondition = condition;
-  // console.log('filterCondition', filterCondition[0]);
+  const filterCondition = condition;
+  console.log('filterCondition', filterCondition);
 
   // switch (condition) {
   //   case condition.hasOwnProperty('include'):
