@@ -13,6 +13,12 @@ function convertUnit(unitToConvert, allUnits) {
   const { unit: from, value } = unitToConvert.distance;
   const to = unitToConvert.convert_to;
 
+  if (allUnits[from] === undefined)
+    throw new Error(`unit '${from}' is not supported`);
+
+  if (allUnits[from][to] === undefined)
+    throw new Error(`convert destination '${to}' is not supported`);
+
   console.log(`converting ${value} from "${from}" to "${to}"`);
 
   const result = allUnits[from][to] * value;
@@ -20,4 +26,8 @@ function convertUnit(unitToConvert, allUnits) {
   return JSON.stringify({ unit: to, value: roundedResult });
 }
 
-console.log('function returns:', convertUnit(unitToConvert, UNITS));
+try {
+  console.log('function returns:', convertUnit(unitToConvert, UNITS));
+} catch (error) {
+  console.error(error.message);
+}
