@@ -1,61 +1,59 @@
-import dataToSort from '../../data-examples/task-02.json' assert { type: 'json' };
+import dataToFilter from '../../data-examples/task-02.json' assert { type: 'json' };
 
 console.log('This is task-02');
-console.log('Incoming data:', dataToSort);
+console.log('Incoming data:', dataToFilter);
 
 const FILTER_CONDITIONS = ['include', 'exclude'];
 
-function sortData(obj) {
-  const { data, condition } = obj;
-  // console.log(obj['data']);
-  // console.log(obj['condition']);
+// defineCondition()
+
+function filterData(DataObject, AllConditions) {
+  const { data, condition } = DataObject;
+  // console.log(DataObject['data']);
+  // console.log(DataObject['condition']);
 
   // console.log(condition[0]);
   // console.log(Object.keys(condition));
   // console.log(condition.hasOwnProperty('exclude'));
 
-  if (!FILTER_CONDITIONS.some(CONDITION => CONDITION in condition)) {
-    console.log('unknown condition');
-    return null; // throw new Error('unknown condition')
+  const filterCondition = AllConditions.find(
+    CONDITION => CONDITION in condition,
+  );
+  console.log(`condition is '${filterCondition}' line23`);
+
+  if (filterCondition === undefined) {
+    console.log('unknown condition line 25');
+    // return null;
+    throw new Error('unknown condition');
   }
+
+  // if (!AllConditions.some(CONDITION => CONDITION in condition)) {
+  //   console.log('unknown condition');
+  //   return null; // throw new Error('unknown condition')
+  // }
 
   let result = [];
 
   if ('include' in condition) {
-    console.log('condition is include');
+    console.log('condition is include st if line 38');
     // console.log(condition.include);
     // console.log('line 19', Object.entries(condition.include[0])[0]);
 
     const compareCondition = Object.entries(condition.include[0])[0];
     // const compareCondition = condition.include[0];
-    console.log('line 21', compareCondition);
-
-    // const cond = Object.entries(condition.include[0]);
-
-    const try1 = data.reduce((acc, obj) => {
-      // console.log(Object.entries(obj).includes(cond));
-
-      if (Object.entries(obj)) {
-      }
-    }, []);
-
-    // console.log(try1);
-
-    // condition.include.forEach(element => {
-    //   result = date.filter(obj => obj);
-    // });
+    console.log('line 21 compareCondition', compareCondition);
 
     result = data.filter(obj => {
       console.log('line37', obj[compareCondition[0]] === compareCondition[1]);
       return obj[compareCondition[0]] === compareCondition[1];
     });
-    console.log('try2', result);
+    console.log('result', result);
     //
   } else if (condition.hasOwnProperty('exclude')) {
-    console.log('condition is exclude');
+    console.log('condition is exclude at if line 53');
 
     const compareCondition = Object.entries(condition.exclude[0])[0];
-    console.log('line 50', compareCondition);
+    console.log('line 50 compareCondition', compareCondition);
 
     // console.log(condition.exclude);
     // condition.exclude.forEach(element => {
@@ -63,7 +61,7 @@ function sortData(obj) {
     // });
 
     result = data.filter(obj => {
-      console.log('line58', obj[compareCondition[0]] !== compareCondition[1]);
+      console.log('line78', obj[compareCondition[0]] !== compareCondition[1]);
       return obj[compareCondition[0]] !== compareCondition[1];
     });
     console.log('result', result);
@@ -71,28 +69,30 @@ function sortData(obj) {
 
   result.sort((a, b) => {
     const sortCondition = condition.sort_by[0];
-    console.log('sort condition is', sortCondition);
+    console.log(`sort condition is '${sortCondition}'`);
 
     console.log('sort', a, b);
     return a[sortCondition] > b[sortCondition] ? 1 : -1;
   });
 
-  const filterCondition = condition;
-  console.log('filterCondition', filterCondition);
+  // const filterCondition = condition;
+  // console.log('filterCondition', filterCondition);
 
-  // switch (condition) {
-  //   case condition.hasOwnProperty('include'):
-  //     console.log('include');
-  //     break;
+  // console.log('cond lin 89', 'exclude' in condition);
 
-  //   case condition.hasOwnProperty('exclude'):
-  //     console.log('exclude');
-  //     break;
+  switch (filterCondition) {
+    case 'include':
+      console.log('include line 99');
+      break;
 
-  //   default:
-  //     console.log('unknown condition');
-  //     break;
-  // }
+    case 'exclude':
+      console.log('exclude line 103');
+      break;
+
+    default:
+      console.log('unknown condition');
+      break;
+  }
 
   // const properties = Object.keys(condition);
   // console.log(properties);
@@ -114,4 +114,8 @@ function sortData(obj) {
   return JSON.stringify({ result });
 }
 
-console.log('function returns:', sortData(dataToSort));
+try {
+  console.log('function returns:', filterData(dataToFilter, FILTER_CONDITIONS));
+} catch (error) {
+  console.error(error.message);
+}
