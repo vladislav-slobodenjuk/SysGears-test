@@ -13,11 +13,10 @@ function convertUnit(unitToConvert, allUnits) {
   const { unit: from, value } = unitToConvert.distance;
   const to = unitToConvert.convert_to;
 
-  if (allUnits[from] === undefined)
-    throw new Error(`unit '${from}' is not supported`);
+  if (allUnits[from] === undefined) throw new Error(`unit '${from}' is not supported`);
 
   if (allUnits[from][to] === undefined)
-    throw new Error(`convert destination '${to}' is not supported`);
+    throw new Error(`convertation target '${to}' is not supported`);
 
   console.log(`converting ${value} from "${from}" to "${to}"`);
 
