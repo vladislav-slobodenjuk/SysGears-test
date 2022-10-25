@@ -11,7 +11,7 @@ function filterData(DataObject, AllConditions) {
   // console.log(DataObject['condition']);
 
   const filterCondition = AllConditions.find(CONDITION => CONDITION in condition);
-  console.log(`Condition is '${filterCondition}' line23`);
+  console.log(`Condition is '${filterCondition}'`);
 
   if (filterCondition === undefined) throw new Error('Unknown condition');
 
@@ -36,15 +36,12 @@ function filterData(DataObject, AllConditions) {
       break;
   }
 
-  result.sort((a, b) => {
-    const sortCondition = condition.sort_by[0];
-    console.log(`Sort condition is '${sortCondition}'`);
+  const sortCondition = condition.sort_by[0];
+  console.log(`Sort condition is '${sortCondition}'`);
 
-    console.log('sort', a, b);
-    return a[sortCondition] > b[sortCondition] ? 1 : -1;
-  });
-
-  return JSON.stringify({ result });
+  result.sort((a, b) => (a[sortCondition] > b[sortCondition] ? 1 : -1));
+  // return JSON.stringify({ result });
+  return { result }; // check format
 }
 
 try {
